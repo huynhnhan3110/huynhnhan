@@ -66,3 +66,63 @@ if( !function_exists('huynhnhan_theme_setup')) {
     }
     add_action('init', 'huynhnhan_theme_setup');
 }
+
+/*-------
+TEMPLATE FUNCTIONS */
+if(!function_exists('huynhnhan_header')) {
+    function huynhnhan_header() { ?>
+        <div class="site-name">
+        <?php 
+            if( is_home()) {
+                printf('<h1><a href="%1$s" title="%2$s">%3$s</a></h1>',
+                get_bloginfo('url'),
+                get_bloginfo('description'),
+                get_bloginfo('sitename'),
+                );
+            } else {
+                printf('<p><a href="%1$s" title="%2$s">%3$s</a></p>',
+                get_bloginfo('url'),
+                get_bloginfo('description'),
+                get_bloginfo('sitename'),);
+                
+            }
+        ?>
+        </div>
+        <div class="site-description">
+            <?php bloginfo('description'); ?>
+        </div>
+    <?php }
+}
+
+/**
+    Thiet lap menu
+**/
+if(!function_exists('huynhnhan_menu')) {
+    function huynhnhan_menu($menu) {
+        $menu = array(
+        'theme_location' => $menu,
+        'container' => 'nav', 
+        'container_class' => $menu);
+
+        wp_nav_menu($menu);
+    }
+}
+/**
+ * Ham phan trang
+ */
+if(!function_exists('huynhnhan_pagination')) {
+    function huynhnhan_pagination() {
+        if( $GLOBALS['wp_query']->max_num_pages < 2) {
+            return '';
+        }?>
+        <nav class="pagination" role="navigation">
+            <?php if( get_next_posts_link()): ?>
+                <div class="prev"><?php next_posts_link(__('Older Posts', 'huynhnhan')); ?></div>
+            <?php endif; ?>
+
+            <?php if( get_previous_posts_link()): ?>
+                <div class="next"><?php previous_posts_link(__('Newest Posts', 'huynhnhan')); ?></div>
+            <?php endif; ?>
+        </nav>
+    <?php }
+}
